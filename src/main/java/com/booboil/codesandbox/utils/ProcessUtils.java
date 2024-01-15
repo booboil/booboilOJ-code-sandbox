@@ -21,10 +21,14 @@ public class ProcessUtils {
      * @param opName
      * @return
      */
+    // 执行process.waitFor等待执行完成，并通过返回exitValue判断是否正常返回
+    // 然后从process的输入流inputStream和错误流errorStream获取控制台输出
+
     public static ExecuteMessage runProcessAndGetMessage(Process runProcess, String opName) {
         ExecuteMessage executeMessage = new ExecuteMessage();
 
         try {
+            // 获取程序执行时间 (使用StopWatch获取一段执行时间)
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
             // 等待程序执行，获取错误码

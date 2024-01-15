@@ -25,7 +25,7 @@ public class ExecuteMessage {
     private String errorMessage;
 
     /**
-     *
+     * 执行用时
      */
     private Long time;
 
