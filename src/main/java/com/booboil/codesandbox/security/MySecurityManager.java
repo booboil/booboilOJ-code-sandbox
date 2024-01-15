@@ -8,6 +8,7 @@ public class MySecurityManager extends SecurityManager {
     // 检查所有的权限
     @Override
     public void checkPermission(Permission perm) {
+        // 开启默认资源管理器
 //        super.checkPermission(perm);
     }
 
@@ -18,11 +19,10 @@ public class MySecurityManager extends SecurityManager {
     }
 
     // 检测程序是否允许读文件
-
     @Override
     public void checkRead(String file) {
         System.out.println(file);
-        if (file.contains("C:\\code\\yuoj-code-sandbox")) {
+        if (file.contains("D:\\IdeaProject\\Oj\\booboilOJ-code-sandbox")) {
             return;
         }
 //        throw new SecurityException("checkRead 权限异常：" + file);

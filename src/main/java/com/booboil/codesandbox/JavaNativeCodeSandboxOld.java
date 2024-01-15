@@ -59,6 +59,7 @@ public class JavaNativeCodeSandboxOld implements CodeSandbox {
 
     @Override
     public ExecuteCodeResponse executeCode(ExecuteCodeRequest executeCodeRequest) {
+        // 禁用所有权限安全管理器
 //        System.setSecurityManager(new DenySecurityManager());
 
         List<String> inputList = executeCodeRequest.getInputList();
@@ -66,11 +67,11 @@ public class JavaNativeCodeSandboxOld implements CodeSandbox {
         String language = executeCodeRequest.getLanguage();
 
         //  校验代码中是否包含黑名单中的命令
-        FoundWord foundWord = WORD_TREE.matchWord(code);
-        if (foundWord != null) {
-            System.out.println("包含禁止词：" + foundWord.getFoundWord());
-            return null;
-        }
+//        FoundWord foundWord = WORD_TREE.matchWord(code);
+//        if (foundWord != null) {
+//            System.out.println("包含禁止词：" + foundWord.getFoundWord());
+//            return null;
+//        }
 
 //        1. 把用户的代码保存为文件
         String userDir = System.getProperty("user.dir");

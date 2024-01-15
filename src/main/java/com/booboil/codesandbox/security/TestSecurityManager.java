@@ -11,6 +11,7 @@ public class TestSecurityManager {
 
     public static void main(String[] args) {
         System.setSecurityManager(new MySecurityManager());
+        // 读文件
         FileUtil.writeString("aa", "aaa", Charset.defaultCharset());
     }
 }

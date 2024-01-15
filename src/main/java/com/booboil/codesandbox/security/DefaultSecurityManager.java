@@ -3,7 +3,7 @@ package com.booboil.codesandbox.security;
 import java.security.Permission;
 
 /**
- * 默认安全管理器
+ * 默认安全管理器 (Java)
  */
 public class DefaultSecurityManager extends SecurityManager {
 
