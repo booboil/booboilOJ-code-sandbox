@@ -3,6 +3,7 @@ package com.booboil.codesandbox;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.dfa.FoundWord;
 import cn.hutool.dfa.WordTree;
 import com.booboil.codesandbox.model.ExecuteCodeRequest;
 import com.booboil.codesandbox.model.ExecuteCodeResponse;
@@ -26,15 +27,15 @@ public class JavaNativeCodeSandboxOld implements CodeSandbox {
     private static final String GLOBAL_CODE_DIR_NAME = "tmpCode";
 
     private static final String GLOBAL_JAVA_CLASS_NAME = "Main.java";
-
+    // 超时时间
     private static final long TIME_OUT = 5000L;
 
     private static final String SECURITY_MANAGER_PATH = "D:\\IdeaProject\\Oj\\booboilOJ-code-sandbox\\src\\main\\resources\\security";
 
     private static final String SECURITY_MANAGER_CLASS_NAME = "MySecurityManager";
-
+    // 黑白名单
     private static final List<String> blackList = Arrays.asList("Files", "exec");
-
+    // WordTree 用更少的空间存储实现更多敏感词汇，实现敏感词查找
     private static final WordTree WORD_TREE;
 
     static {
@@ -65,11 +66,11 @@ public class JavaNativeCodeSandboxOld implements CodeSandbox {
         String language = executeCodeRequest.getLanguage();
 
         //  校验代码中是否包含黑名单中的命令
-//        FoundWord foundWord = WORD_TREE.matchWord(code);
-//        if (foundWord != null) {
-//            System.out.println("包含禁止词：" + foundWord.getFoundWord());
-//            return null;
-//        }
+        FoundWord foundWord = WORD_TREE.matchWord(code);
+        if (foundWord != null) {
+            System.out.println("包含禁止词：" + foundWord.getFoundWord());
+            return null;
+        }
 
 //        1. 把用户的代码保存为文件
         String userDir = System.getProperty("user.dir");
@@ -100,10 +101,11 @@ public class JavaNativeCodeSandboxOld implements CodeSandbox {
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
         for (String inputArgs : inputList) {
 //            String runCmd = String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s Main %s", userCodeParentPath, inputArgs);
+            // 限制资源分配
             String runCmd = String.format("java -Xmx256m -Dfile.encoding=UTF-8 -cp %s;%s -Djava.security.manager=%s Main %s", userCodeParentPath, SECURITY_MANAGER_PATH, SECURITY_MANAGER_CLASS_NAME, inputArgs);
             try {
                 Process runProcess = Runtime.getRuntime().exec(runCmd);
-                // 超时控制
+                // 超时控制 (解决执行超时问题)
                 new Thread(() -> {
                     try {
                         Thread.sleep(TIME_OUT);
