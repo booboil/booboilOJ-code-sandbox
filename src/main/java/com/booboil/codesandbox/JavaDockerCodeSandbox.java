@@ -101,7 +101,7 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
         // 启动容器
         dockerClient.startContainerCmd(containerId).exec();
 
-        // docker exec keen_blackwell java -cp /app Main 1 3
+        // docker exec keen_blackwell java -cp /app Main 1 3 （命令）
         // 执行命令并获取结果
         List<ExecuteMessage> executeMessageList = new ArrayList<>();
         for (String inputArgs : inputList) {
@@ -123,6 +123,7 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
             // 判断是否超时
             final boolean[] timeout = {true};
             String execId = execCreateCmdResponse.getId();
+            // 实现exec启动结果回调
             ExecStartResultCallback execStartResultCallback = new ExecStartResultCallback() {
                 @Override
                 public void onComplete() {
