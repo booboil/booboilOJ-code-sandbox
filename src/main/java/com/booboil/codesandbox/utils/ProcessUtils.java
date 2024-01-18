@@ -2,7 +2,7 @@ package com.booboil.codesandbox.utils;
 
 import cn.hutool.core.util.StrUtil;
 import com.booboil.codesandbox.model.ExecuteMessage;
-import org.apache.maven.surefire.shade.org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StopWatch;
 
 import java.io.*;
