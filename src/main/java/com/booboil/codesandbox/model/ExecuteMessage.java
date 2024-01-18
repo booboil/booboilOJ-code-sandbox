@@ -1,6 +1,5 @@
 package com.booboil.codesandbox.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
