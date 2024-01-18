@@ -78,7 +78,7 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
 
         System.out.println("下载完成");
 
-        // 创建容器
+        // 创建容器 （通过hostConfig和withMemory,设置容器的最大内存和资源限制）
         CreateContainerCmd containerCmd = dockerClient.createContainerCmd(image);
         HostConfig hostConfig = new HostConfig();
         hostConfig.withMemory(100 * 1000 * 1000L);
@@ -116,6 +116,7 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
                     .exec();
             System.out.println("创建执行命令：" + execCreateCmdResponse);
 
+            // 在异步接口中填充正常和异常信息
             ExecuteMessage executeMessage = new ExecuteMessage();
             final String[] message = {null};
             final String[] errorMessage = {null};
@@ -148,7 +149,7 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
 
             final long[] maxMemory = {0L};
 
-            // 获取占用的内存
+            // 获取程序占用的内存 （Docker-Java提供了内存定制统计的操作）
             StatsCmd statsCmd = dockerClient.statsCmd(containerId);
             ResultCallback<Statistics> statisticsResultCallback = statsCmd.exec(new ResultCallback<Statistics>() {
 
@@ -180,7 +181,9 @@ public class JavaDockerCodeSandbox extends JavaCodeSandboxTemplate {
             });
             statsCmd.exec(statisticsResultCallback);
             try {
+                // 使用StopWatch在执行前后统计时间
                 stopWatch.start();
+                // 超时控制
                 dockerClient.execStartCmd(execId)
                         .exec(execStartResultCallback)
                         .awaitCompletion(TIME_OUT, TimeUnit.MICROSECONDS);
