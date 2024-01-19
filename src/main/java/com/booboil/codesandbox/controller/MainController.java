@@ -29,7 +29,7 @@ public class MainController {
     }
 
     /**
-     * 执行代码
+     * 执行代码 (给代码沙箱提供开放API)
      *
      * @param executeCodeRequest
      * @return
@@ -37,7 +37,7 @@ public class MainController {
     @PostMapping("/executeCode")
     ExecuteCodeResponse executeCode(@RequestBody ExecuteCodeRequest executeCodeRequest, HttpServletRequest request,
                                     HttpServletResponse response) {
-        // 基本的认证
+        // 基本的认证 （调用方与服务提供方之间约定一个字符串）
         String authHeader = request.getHeader(AUTH_REQUEST_HEADER);
         if (!AUTH_REQUEST_SECRET.equals(authHeader)) {
             response.setStatus(403);
